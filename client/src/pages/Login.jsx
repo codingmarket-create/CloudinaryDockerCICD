@@ -1,109 +1,79 @@
 import { useState } from "react";
 
-import {
-    Box,
-    Button,
-    Container,
-    TextField,
-    Typography,
-} from "@mui/material";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
 
 import api from "../services/api";
 
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/useAuth";
 
 function Login() {
+  const navigate = useNavigate();
+  const { setUser } = useAuth();
 
-    const navigate = useNavigate();
-    const { setUser } = useAuth();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-    const [formData, setFormData] = useState({
-        email: "",
-        password: "",
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
     });
+  };
 
-    const handleChange = (e) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-    };
+    try {
+      const response = await api.post("/auth/login", formData);
 
-    const handleSubmit = async (e) => {
+      console.log(response.data);
+      toast.success("Login successful");
 
-        e.preventDefault();
+      setUser(response.data.user);
 
-        try {
+      navigate("/");
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.log(error);
+    }
+  };
 
-            const response = await api.post(
-                "/auth/login",
-                formData
-            );
+  return (
+    <Container maxWidth="sm">
+      <Box mt={10} component="form" onSubmit={handleSubmit}>
+        <Typography variant="h4" mb={3}>
+          Login
+        </Typography>
 
-            console.log(response.data);
-            toast.success("Login successful");
+        <TextField
+          fullWidth
+          label="Email"
+          margin="normal"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+        />
 
-            setUser(response.data.user);
+        <TextField
+          fullWidth
+          type="password"
+          label="Password"
+          margin="normal"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+        />
 
-            navigate("/");
-
-        } catch (error) {
-            toast.error(error.response.data.message);
-            console.log(error);
-        }
-    };
-
-    return (
-        <Container maxWidth="sm">
-
-            <Box
-                mt={10}
-                component="form"
-                onSubmit={handleSubmit}
-            >
-
-                <Typography
-                    variant="h4"
-                    mb={3}
-                >
-                    Login
-                </Typography>
-
-                <TextField
-                    fullWidth
-                    label="Email"
-                    margin="normal"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                />
-
-                <TextField
-                    fullWidth
-                    type="password"
-                    label="Password"
-                    margin="normal"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                />
-
-                <Button
-                    type="submit"
-                    variant="contained"
-                    fullWidth
-                    sx={{ mt: 2 }}
-                >
-                    Login
-                </Button>
-
-            </Box>
-
-        </Container>
-    );
+        <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
+          Login
+        </Button>
+      </Box>
+    </Container>
+  );
 }
 
 export default Login;

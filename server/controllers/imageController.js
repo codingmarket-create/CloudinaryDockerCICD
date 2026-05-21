@@ -4,9 +4,7 @@ const Image = require("../models/Image");
 const streamifier = require("streamifier");
 
 const uploadImage = async (req, res) => {
-
   try {
-
     if (!req.file) {
       return res.status(400).json({
         message: "No image uploaded",
@@ -15,13 +13,11 @@ const uploadImage = async (req, res) => {
 
     const streamUpload = () => {
       return new Promise((resolve, reject) => {
-
         const stream = cloudinary.uploader.upload_stream(
           {
             folder: "cloudinary-app",
           },
           (error, result) => {
-
             if (result) {
               resolve(result);
             } else {
@@ -30,10 +26,7 @@ const uploadImage = async (req, res) => {
           }
         );
 
-        streamifier
-          .createReadStream(req.file.buffer)
-          .pipe(stream);
-
+        streamifier.createReadStream(req.file.buffer).pipe(stream);
       });
     };
 
@@ -47,9 +40,8 @@ const uploadImage = async (req, res) => {
     });
 
     res.status(201).json(image);
-
   } catch (error) {
-console.log(error);
+    console.log(error);
     res.status(500).json({
       message: error.message,
     });
@@ -57,16 +49,11 @@ console.log(error);
 };
 
 const getImages = async (req, res) => {
-
   try {
-
-    const images = await Image.find()
-      .populate("uploadedBy", "name email");
+    const images = await Image.find().populate("uploadedBy", "name email");
 
     res.status(200).json(images);
-
   } catch (error) {
-
     res.status(500).json({
       message: error.message,
     });

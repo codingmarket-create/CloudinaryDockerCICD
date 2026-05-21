@@ -16,7 +16,7 @@ const registerUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await User.create({
+    await User.create({
       name,
       email,
       password: hashedPassword,
@@ -25,14 +25,12 @@ const registerUser = async (req, res) => {
     res.status(201).json({
       message: "User registered successfully",
     });
-
   } catch (error) {
     res.status(500).json({
       message: error.message,
     });
   }
 };
-
 
 const loginUser = async (req, res) => {
   try {
@@ -46,10 +44,7 @@ const loginUser = async (req, res) => {
       });
     }
 
-    const isMatch = await bcrypt.compare(
-      password,
-      user.password
-    );
+    const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
       return res.status(400).json({
@@ -71,10 +66,7 @@ const loginUser = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite:
-        process.env.NODE_ENV === "production"
-          ? "none"
-          : "lax",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     });
 
     res.status(200).json({
@@ -86,7 +78,6 @@ const loginUser = async (req, res) => {
         role: user.role,
       },
     });
-
   } catch (error) {
     res.status(500).json({
       message: error.message,
@@ -95,13 +86,9 @@ const loginUser = async (req, res) => {
 };
 
 const getMe = async (req, res) => {
-
   try {
-
     res.status(200).json(req.user);
-
   } catch (error) {
-
     res.status(500).json({
       message: error.message,
     });
@@ -109,9 +96,7 @@ const getMe = async (req, res) => {
 };
 
 const logoutUser = async (req, res) => {
-
   try {
-
     res.cookie("token", "", {
       httpOnly: true,
       expires: new Date(0),
@@ -120,9 +105,7 @@ const logoutUser = async (req, res) => {
     res.status(200).json({
       message: "Logged out successfully",
     });
-
   } catch (error) {
-
     res.status(500).json({
       message: error.message,
     });

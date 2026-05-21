@@ -1,12 +1,6 @@
 import { useState } from "react";
 
-import {
-  Box,
-  Button,
-  Container,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
 
 import api from "../services/api";
 
@@ -15,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function Register() {
-
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -25,7 +18,6 @@ function Register() {
   });
 
   const handleChange = (e) => {
-
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -33,39 +25,23 @@ function Register() {
   };
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
 
     try {
-
-      const response = await api.post(
-        "/auth/register",
-        formData
-      );
+      const response = await api.post("/auth/register", formData);
 
       toast.success(response.data.message);
 
       navigate("/login");
-
     } catch (error) {
-
       toast.error(error.response.data.message);
     }
   };
 
   return (
     <Container maxWidth="sm">
-
-      <Box
-        mt={10}
-        component="form"
-        onSubmit={handleSubmit}
-      >
-
-        <Typography
-          variant="h4"
-          mb={3}
-        >
+      <Box mt={10} component="form" onSubmit={handleSubmit}>
+        <Typography variant="h4" mb={3}>
           Register
         </Typography>
 
@@ -97,17 +73,10 @@ function Register() {
           onChange={handleChange}
         />
 
-        <Button
-          type="submit"
-          variant="contained"
-          fullWidth
-          sx={{ mt: 2 }}
-        >
+        <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
           Register
         </Button>
-
       </Box>
-
     </Container>
   );
 }

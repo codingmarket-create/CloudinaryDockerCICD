@@ -9,16 +9,18 @@ const imageRoutes = require("./routes/imageRoutes");
 
 const app = express();
 
-connectDB(); 
+connectDB();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://cloudinary-docker-cicd.vercel.app/",
 ];
 
-app.use(cors({
-  origin: allowedOrigins,
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());

@@ -31,5 +31,8 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Run ESLint
+        run: npm run lint
+
       - name: Build Frontend
         run: npm run build

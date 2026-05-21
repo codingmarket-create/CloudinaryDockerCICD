@@ -10,26 +10,35 @@ import Navbar from "./components/Navbar";
 import PublicRoute from "./routes/PublicRoute";
 
 function App() {
-
   return (
     <div className="CI_wrapper">
       <Navbar />
       <Routes>
-
-        <Route path="/" element={
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        } />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/login"
-          element={<PublicRoute><Login /></PublicRoute>}
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
         />
 
         <Route
           path="/register"
-          element={<PublicRoute><Register /></PublicRoute>}
+          element={
+            <PublicRoute>
+              <Register />
+            </PublicRoute>
+          }
         />
 
         <Route
@@ -40,7 +49,6 @@ function App() {
             </AdminRoute>
           }
         />
-
       </Routes>
     </div>
   );

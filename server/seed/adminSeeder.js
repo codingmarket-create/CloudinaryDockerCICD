@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const bcrypt = require("bcryptjs");
 
@@ -11,7 +10,6 @@ connectDB();
 
 const seedAdmin = async () => {
   try {
-
     const adminExists = await User.findOne({
       email: "admin@gmail.com",
     });
@@ -21,10 +19,7 @@ const seedAdmin = async () => {
       process.exit();
     }
 
-    const hashedPassword = await bcrypt.hash(
-      "Admin@123",
-      10
-    );
+    const hashedPassword = await bcrypt.hash("Admin@123", 10);
 
     await User.create({
       name: "Admin",
@@ -36,7 +31,6 @@ const seedAdmin = async () => {
     console.log("Admin created");
 
     process.exit();
-
   } catch (error) {
     console.log(error);
     process.exit(1);
