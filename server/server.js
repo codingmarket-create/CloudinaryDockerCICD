@@ -12,6 +12,7 @@ const app = express();
 connectDB(); 
 const allowedOrigins = [
   "http://localhost:5173",
+  "https://cloudinary-docker-cicd.vercel.app/",
 ];
 
 app.use(cors({
