@@ -16,6 +16,8 @@ const allowedOrigins = [
   "https://cloudinary-frontend-staging.vercel.app",
 ];
 
+
+console.log("API URL:", import.meta.env.VITE_API_URL);
 app.use(
   cors({
     origin: allowedOrigins,
