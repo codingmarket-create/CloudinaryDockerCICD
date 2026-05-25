@@ -13,6 +13,7 @@ connectDB();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://cloudinary-docker-cicd.vercel.app/",
+  "https://cloudinary-frontend-staging.vercel.app",
 ];
 
 app.use(
@@ -27,6 +28,9 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/images", imageRoutes);
+app.use("/", (req, res) => {
+  res.send("docker build checking");
+});
 
 const PORT = process.env.PORT || 5000;
 
