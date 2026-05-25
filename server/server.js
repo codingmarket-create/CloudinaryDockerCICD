@@ -13,7 +13,7 @@ connectDB();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://cloudinary-docker-cicd.vercel.app/",
-  "https://cloudinary-frontend-staging.vercel.app",
+  "https://cloudinaryfrontendstaging.vercel.app/",
 ];
 
 
